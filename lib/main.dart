@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spotify_clone/core/theme/app_palette.dart';
 import 'package:spotify_clone/core/theme/theme.dart';
 import 'package:spotify_clone/features/auth/view/sign_up_view.dart';
 
@@ -13,7 +14,9 @@ class SpofifyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.darkThemeMode,
+      theme: AppTheme.darkThemeMode.copyWith(
+        scaffoldBackgroundColor: Pallete.backgroundColor,
+      ),
       home: SignUpView(),
     );
   }
