@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:spotify_clone/features/auth/view/widgets/sign_up_body.dart';
 
-class SignUpView extends StatefulWidget {
+class SignUpView extends StatelessWidget {
   const SignUpView({super.key});
 
   @override
-  State<SignUpView> createState() => _SignUpViewState();
-}
-
-class _SignUpViewState extends State<SignUpView> {
-  @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return SafeArea(child: Scaffold(body: const SignUpBody()));
   }
 }
