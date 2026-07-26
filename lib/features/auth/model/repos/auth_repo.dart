@@ -1,0 +1,51 @@
+import 'dart:convert';
+
+import 'package:fpdart/fpdart.dart';
+import 'package:spotify_clone/core/errorss/failure.dart';
+import 'package:spotify_clone/features/auth/model/models/user_model.dart';
+import 'package:http/http.dart' as http;
+
+class AuthRepo {
+  Future<Either<Failure, UserModel>> login({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final response = await http.post(
+        Uri.parse("http://127.0.0.1:8000/auth/login"),
+        body: {"email": email, "password": password},
+        headers: {"Content-Type": "application/json"},
+      );
+      final content = jsonDecode(response.body);
+      if (response.statusCode == 200) {
+        return right(UserModel.fromJson(content));
+      } else {
+        return left(Failure(content["details"]));
+      }
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  Future<Either<Failure, UserModel>> signUp({
+    required String email,
+    required String password,
+    required String name,
+  }) async {
+    try {
+      final response = await http.post(
+        Uri.parse("http://127.0.0.1:8000/auth/signUp"),
+        headers: {"Content-Type": "application/json"},
+        body: {"email": email, "password": password, "name": name},
+      );
+      final content = jsonDecode(response.body);
+      if (response.statusCode == 201) {
+        return right(UserModel.fromJson(content));
+      } else {
+        return left(Failure(content["details"]));
+      }
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+}
