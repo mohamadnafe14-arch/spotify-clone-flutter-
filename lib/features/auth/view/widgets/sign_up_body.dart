@@ -1,21 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:spotify_clone/features/auth/view/sign_in_view.dart';
 import 'package:spotify_clone/features/auth/view/widgets/auth_button.dart';
 import 'package:spotify_clone/features/auth/view/widgets/auth_text_form_field.dart';
 import 'package:spotify_clone/features/auth/view/widgets/custom_text_button.dart';
+import 'package:spotify_clone/features/auth/viewmodel/auth_viewmodel.dart';
 
-class SignUpBody extends StatefulWidget {
+class SignUpBody extends ConsumerStatefulWidget {
   const SignUpBody({super.key});
   @override
-  State<SignUpBody> createState() => _SignUpBodyState();
+  ConsumerState<SignUpBody> createState() => _SignUpBodyState();
 }
 
-class _SignUpBodyState extends State<SignUpBody> {
-  late GlobalKey<FormState> formKey = GlobalKey<FormState>();
+class _SignUpBodyState extends ConsumerState<SignUpBody> {
+  late GlobalKey<FormState> formKey;
   String? name, email, password;
   @override
   void initState() {
     super.initState();
+    formKey = GlobalKey<FormState>();
+
+    ref.listenManual(authViewmodelProvider, (previous, next) {
+      next?.when(
+        data: (data) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text("${data.name} logged in")));
+        },
+        error: (error, stackTrace) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(error.toString())));
+        },
+        loading: () {},
+      );
+    });
   }
 
   @override
@@ -85,10 +104,17 @@ class _SignUpBodyState extends State<SignUpBody> {
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
                     formKey.currentState!.save();
+                    ref
+                        .read(authViewmodelProvider.notifier)
+                        .signUp(
+                          email: email!,
+                          password: password!,
+                          name: name!,
+                        );
                   }
                 },
                 text: 'Sign Up',
-                isLoading: false,
+                isLoading: ref.watch(authViewmodelProvider)?.isLoading ?? false,
               ),
               const SizedBox(height: 20),
               CustomTextButton(

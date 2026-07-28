@@ -1,23 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:spotify_clone/features/auth/view/sign_up_view.dart';
 import 'package:spotify_clone/features/auth/view/widgets/auth_button.dart';
 import 'package:spotify_clone/features/auth/view/widgets/auth_text_form_field.dart';
 import 'package:spotify_clone/features/auth/view/widgets/custom_text_button.dart';
+import 'package:spotify_clone/features/auth/viewmodel/auth_viewmodel.dart';
 
-class SignInBody extends StatefulWidget {
+class SignInBody extends ConsumerStatefulWidget {
   const SignInBody({super.key});
 
   @override
-  State<SignInBody> createState() => _SignInBodyState();
+  ConsumerState<SignInBody> createState() => _SignInBodyState();
 }
 
-class _SignInBodyState extends State<SignInBody> {
+class _SignInBodyState extends ConsumerState<SignInBody> {
   late GlobalKey<FormState> formKey;
   String? email, password;
   @override
   void initState() {
-    formKey = GlobalKey<FormState>();
     super.initState();
+    formKey = GlobalKey<FormState>();
+
+    ref.listenManual(authViewmodelProvider, (previous, next) {
+      next?.when(
+        data: (data) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text("${data.name} logged in")));
+        },
+        error: (error, stackTrace) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(error.toString())));
+        },
+        loading: () {},
+      );
+    });
   }
 
   @override
@@ -74,10 +92,13 @@ class _SignInBodyState extends State<SignInBody> {
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
                     formKey.currentState!.save();
+                    ref
+                        .read(authViewmodelProvider.notifier)
+                        .login(email: email!, password: password!);
                   }
                 },
                 text: 'Sign In',
-                isLoading: false,
+                isLoading: ref.watch(authViewmodelProvider)?.isLoading ?? false,
               ),
               const SizedBox(height: 20),
               CustomTextButton(

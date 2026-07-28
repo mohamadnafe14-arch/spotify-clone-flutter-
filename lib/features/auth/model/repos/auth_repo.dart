@@ -13,7 +13,7 @@ class AuthRepo {
   }) async {
     try {
       final response = await http.post(
-        Uri.parse("${baseUrl}auth/login"),
+        Uri.parse("$baseUrl/auth/login"),
         body: jsonEncode({"email": email, "password": password}),
         headers: {"Content-Type": "application/json"},
       );
@@ -35,7 +35,7 @@ class AuthRepo {
   }) async {
     try {
       final response = await http.post(
-        Uri.parse("{$baseUrl}auth/signUp"),
+        Uri.parse("$baseUrl/auth/signUp"),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({"email": email, "password": password, "name": name}),
       );
