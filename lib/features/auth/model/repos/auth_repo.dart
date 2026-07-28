@@ -1,10 +1,14 @@
 import 'dart:convert';
 
 import 'package:fpdart/fpdart.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:spotify_clone/core/consts/server_constants.dart';
 import 'package:spotify_clone/core/errorss/failure.dart';
 import 'package:spotify_clone/features/auth/model/models/user_model.dart';
 import 'package:http/http.dart' as http;
+part 'auth_repo.g.dart';
+@riverpod
+AuthRepo authRepo(Ref ref) => AuthRepo();
 
 class AuthRepo {
   Future<Either<Failure, UserModel>> login({
