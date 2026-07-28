@@ -1,4 +1,9 @@
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+part 'auth_local_repo.g.dart';
+
+@riverpod
+AuthLocalRepo authLocalRepo(Ref ref) => AuthLocalRepo();
 
 class AuthLocalRepo {
   late SharedPreferences prefs;

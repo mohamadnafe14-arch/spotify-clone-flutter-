@@ -1,20 +1,26 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:spotify_clone/features/auth/model/models/user_model.dart';
+import 'package:spotify_clone/features/auth/model/repos/auth_local_repo.dart';
 import 'package:spotify_clone/features/auth/model/repos/auth_remote_repo.dart';
 part 'auth_viewmodel.g.dart';
 
 @riverpod
 class AuthViewmodel extends _$AuthViewmodel {
-  late AuthRemoteRepo _authRepo;
+  late AuthRemoteRepo _authRemoteRepo;
+  late AuthLocalRepo _authLocalRepo;
   @override
   AsyncValue<UserModel>? build() {
-    _authRepo = ref.watch(authRepoProvider);
+    _authRemoteRepo = ref.watch(authRepoProvider);
+    _authLocalRepo = ref.watch(authLocalRepoProvider);
     return null;
   }
 
   Future<void> login({required String email, required String password}) async {
     state = const AsyncLoading();
-    final result = await _authRepo.login(email: email, password: password);
+    final result = await _authRemoteRepo.login(
+      email: email,
+      password: password,
+    );
     result.fold(
       (l) => state = AsyncError(l.message, StackTrace.current),
       (r) => state = AsyncData(r),
@@ -27,7 +33,7 @@ class AuthViewmodel extends _$AuthViewmodel {
     required String name,
   }) async {
     state = const AsyncLoading();
-    final result = await _authRepo.signUp(
+    final result = await _authRemoteRepo.signUp(
       email: email,
       password: password,
       name: name,
