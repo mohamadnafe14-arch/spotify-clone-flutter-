@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:fpdart/fpdart.dart';
+import 'package:spotify_clone/core/consts/server_constants.dart';
 import 'package:spotify_clone/core/errorss/failure.dart';
 import 'package:spotify_clone/features/auth/model/models/user_model.dart';
 import 'package:http/http.dart' as http;
@@ -12,8 +13,8 @@ class AuthRepo {
   }) async {
     try {
       final response = await http.post(
-        Uri.parse("http://127.0.0.1:8000/auth/login"),
-        body: {"email": email, "password": password},
+        Uri.parse("${baseUrl}auth/login"),
+        body: jsonEncode({"email": email, "password": password}),
         headers: {"Content-Type": "application/json"},
       );
       final content = jsonDecode(response.body);
@@ -34,9 +35,9 @@ class AuthRepo {
   }) async {
     try {
       final response = await http.post(
-        Uri.parse("http://127.0.0.1:8000/auth/signUp"),
+        Uri.parse("{$baseUrl}auth/signUp"),
         headers: {"Content-Type": "application/json"},
-        body: {"email": email, "password": password, "name": name},
+        body: jsonEncode({"email": email, "password": password, "name": name}),
       );
       final content = jsonDecode(response.body);
       if (response.statusCode == 201) {

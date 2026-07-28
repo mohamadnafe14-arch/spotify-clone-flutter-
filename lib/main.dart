@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:spotify_clone/core/theme/app_palette.dart';
 import 'package:spotify_clone/core/theme/theme.dart';
 import 'package:spotify_clone/features/auth/view/sign_up_view.dart';
 
 void main() {
-  runApp(const SpofifyApp());
+  runApp(const ProviderScope(child: SpofifyApp()));
 }
 
 class SpofifyApp extends StatelessWidget {
