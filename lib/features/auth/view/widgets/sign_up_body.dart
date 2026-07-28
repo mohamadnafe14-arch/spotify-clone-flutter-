@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:spotify_clone/core/functions/show_snack_bar.dart';
 import 'package:spotify_clone/features/auth/view/sign_in_view.dart';
 import 'package:spotify_clone/features/auth/view/widgets/auth_button.dart';
 import 'package:spotify_clone/features/auth/view/widgets/auth_text_form_field.dart';
@@ -19,26 +20,22 @@ class _SignUpBodyState extends ConsumerState<SignUpBody> {
   void initState() {
     super.initState();
     formKey = GlobalKey<FormState>();
-
-    ref.listenManual(authViewmodelProvider, (previous, next) {
-      next?.when(
-        data: (data) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text("${data.name} logged in")));
-        },
-        error: (error, stackTrace) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(error.toString())));
-        },
-        loading: () {},
-      );
-    });
   }
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(authViewmodelProvider, (_, next) {
+      next?.when(
+        data: (data) {
+          
+        }
+        ,
+        error: (error, stackTrace) {
+          showSnackBar(error.toString(), context);
+        },
+        loading: () {},
+      );
+    });
     return Form(
       key: formKey,
       child: Padding(
