@@ -6,11 +6,12 @@ import 'package:spotify_clone/core/consts/server_constants.dart';
 import 'package:spotify_clone/core/errorss/failure.dart';
 import 'package:spotify_clone/features/auth/model/models/user_model.dart';
 import 'package:http/http.dart' as http;
-part 'auth_repo.g.dart';
-@riverpod
-AuthRepo authRepo(Ref ref) => AuthRepo();
+part 'auth_remote_repo.g.dart';
 
-class AuthRepo {
+@riverpod
+AuthRemoteRepo authRepo(Ref ref) => AuthRemoteRepo();
+
+class AuthRemoteRepo {
   Future<Either<Failure, UserModel>> login({
     required String email,
     required String password,
@@ -23,9 +24,9 @@ class AuthRepo {
       );
       final content = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        return right(UserModel.fromJson(content));
+        return right(UserModel.fromJson(content["user"]));
       } else {
-        return left(Failure(content["details"]));
+        return left(Failure(content["detail"]));
       }
     } catch (e) {
       return left(Failure(e.toString()));
@@ -47,7 +48,7 @@ class AuthRepo {
       if (response.statusCode == 201) {
         return right(UserModel.fromJson(content));
       } else {
-        return left(Failure(content["details"]));
+        return left(Failure(content["detail"]));
       }
     } catch (e) {
       return left(Failure(e.toString()));

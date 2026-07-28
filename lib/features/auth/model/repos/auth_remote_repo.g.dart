@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'auth_repo.dart';
+part of 'auth_remote_repo.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -13,8 +13,8 @@ part of 'auth_repo.dart';
 final authRepoProvider = AuthRepoProvider._();
 
 final class AuthRepoProvider
-    extends $FunctionalProvider<AuthRepo, AuthRepo, AuthRepo>
-    with $Provider<AuthRepo> {
+    extends $FunctionalProvider<AuthRemoteRepo, AuthRemoteRepo, AuthRemoteRepo>
+    with $Provider<AuthRemoteRepo> {
   AuthRepoProvider._()
     : super(
         from: null,
@@ -31,21 +31,21 @@ final class AuthRepoProvider
 
   @$internal
   @override
-  $ProviderElement<AuthRepo> $createElement($ProviderPointer pointer) =>
+  $ProviderElement<AuthRemoteRepo> $createElement($ProviderPointer pointer) =>
       $ProviderElement(pointer);
 
   @override
-  AuthRepo create(Ref ref) {
+  AuthRemoteRepo create(Ref ref) {
     return authRepo(ref);
   }
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(AuthRepo value) {
+  Override overrideWithValue(AuthRemoteRepo value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<AuthRepo>(value),
+      providerOverride: $SyncValueProvider<AuthRemoteRepo>(value),
     );
   }
 }
 
-String _$authRepoHash() => r'720f764a7f6160dfb0890171e73261c6c5dca7fc';
+String _$authRepoHash() => r'dfb11ad9b7077712b9035563019f218cedc93499';

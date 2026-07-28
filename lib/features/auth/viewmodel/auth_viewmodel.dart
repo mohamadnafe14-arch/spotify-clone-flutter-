@@ -1,11 +1,11 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:spotify_clone/features/auth/model/models/user_model.dart';
-import 'package:spotify_clone/features/auth/model/repos/auth_repo.dart';
+import 'package:spotify_clone/features/auth/model/repos/auth_remote_repo.dart';
 part 'auth_viewmodel.g.dart';
 
 @riverpod
 class AuthViewmodel extends _$AuthViewmodel {
-  late final AuthRepo _authRepo;
+  late AuthRemoteRepo _authRepo;
   @override
   AsyncValue<UserModel>? build() {
     _authRepo = ref.watch(authRepoProvider);
