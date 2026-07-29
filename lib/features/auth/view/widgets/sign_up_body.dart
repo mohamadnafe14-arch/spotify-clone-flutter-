@@ -6,6 +6,7 @@ import 'package:spotify_clone/features/auth/view/widgets/auth_button.dart';
 import 'package:spotify_clone/features/auth/view/widgets/auth_text_form_field.dart';
 import 'package:spotify_clone/features/auth/view/widgets/custom_text_button.dart';
 import 'package:spotify_clone/features/auth/viewmodel/auth_viewmodel.dart';
+import 'package:spotify_clone/features/home/views/home_view.dart';
 
 class SignUpBody extends ConsumerStatefulWidget {
   const SignUpBody({super.key});
@@ -27,9 +28,12 @@ class _SignUpBodyState extends ConsumerState<SignUpBody> {
     ref.listen(authViewmodelProvider, (_, next) {
       next?.when(
         data: (data) {
-          
-        }
-        ,
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const HomeView()),
+            (_) => false,
+          );
+        },
         error: (error, stackTrace) {
           showSnackBar(error.toString(), context);
         },

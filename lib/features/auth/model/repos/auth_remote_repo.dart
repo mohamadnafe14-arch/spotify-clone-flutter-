@@ -64,7 +64,7 @@ class AuthRemoteRepo {
   }) async {
     try {
       final response = await http.get(
-        Uri.parse("$baseUrl/auth/getCurrentUser"),
+        Uri.parse("$baseUrl/auth/"),
         headers: {"Content-Type": "application/json", "x-auth-token": token},
       );
       final content = jsonDecode(response.body);

@@ -55,6 +55,7 @@ class AuthViewmodel extends _$AuthViewmodel {
           return null;
         },
         (r) {
+          _userModelProvider.setUser(r);
           return r;
         },
       );
