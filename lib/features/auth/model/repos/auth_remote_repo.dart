@@ -24,7 +24,9 @@ class AuthRemoteRepo {
       );
       final content = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        return right(UserModel.fromJson(content["user"]));
+        return right(
+          UserModel.fromJson(content["user"]).copyWith(token: content["token"]),
+        );
       } else {
         return left(Failure(content["detail"]));
       }
@@ -46,7 +48,28 @@ class AuthRemoteRepo {
       );
       final content = jsonDecode(response.body);
       if (response.statusCode == 201) {
-        return right(UserModel.fromJson(content));
+        return right(
+          UserModel.fromJson(content).copyWith(token: content["token"]),
+        );
+      } else {
+        return left(Failure(content["detail"]));
+      }
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  Future<Either<Failure, UserModel>> getCurrentUser({
+    required String token,
+  }) async {
+    try {
+      final response = await http.get(
+        Uri.parse("$baseUrl/auth/getCurrentUser"),
+        headers: {"Content-Type": "application/json", "x-auth-token": token},
+      );
+      final content = jsonDecode(response.body);
+      if (response.statusCode == 200) {
+        return right(UserModel.fromJson(content).copyWith(token: token));
       } else {
         return left(Failure(content["detail"]));
       }

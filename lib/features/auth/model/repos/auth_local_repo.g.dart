@@ -21,7 +21,7 @@ final class AuthLocalRepoProvider
         argument: null,
         retry: null,
         name: r'authLocalRepoProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -48,4 +48,4 @@ final class AuthLocalRepoProvider
   }
 }
 
-String _$authLocalRepoHash() => r'06233c997b9a035234d312ab95a960e15e4c77fe';
+String _$authLocalRepoHash() => r'a0146b9823e6033ca8b325216e1033f67314a4b8';
