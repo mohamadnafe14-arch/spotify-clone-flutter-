@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:spotify_clone/core/functions/show_snack_bar.dart';
 import 'package:spotify_clone/features/auth/view/sign_up_view.dart';
 import 'package:spotify_clone/features/auth/view/widgets/auth_button.dart';
-import 'package:spotify_clone/features/auth/view/widgets/auth_text_form_field.dart';
+import 'package:spotify_clone/core/widgets/custom_text_form_field.dart';
 import 'package:spotify_clone/features/auth/view/widgets/custom_text_button.dart';
 import 'package:spotify_clone/features/auth/viewmodel/auth_viewmodel.dart';
 import 'package:spotify_clone/features/home/views/home_view.dart';
@@ -60,7 +60,7 @@ class _SignInBodyState extends ConsumerState<SignInBody> {
                 style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 20),
-              AuthTextFormField(
+              CustomTextFormField(
                 hintText: 'Email',
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -74,7 +74,7 @@ class _SignInBodyState extends ConsumerState<SignInBody> {
                 onSaved: (value) => email = value,
               ),
               const SizedBox(height: 20),
-              AuthTextFormField(
+              CustomTextFormField(
                 hintText: 'Password',
                 obscureText: true,
                 onSaved: (value) => password = value,
