@@ -6,6 +6,7 @@ import 'package:spotify_clone/core/functions/pick_image.dart';
 import 'package:spotify_clone/core/functions/pick_song.dart';
 import 'package:spotify_clone/core/theme/app_palette.dart';
 import 'package:spotify_clone/core/widgets/custom_text_form_field.dart';
+import 'package:spotify_clone/features/home/views/waveform_widget.dart';
 
 class AddSongView extends StatefulWidget {
   const AddSongView({super.key});
@@ -86,20 +87,22 @@ class _AddSongViewState extends State<AddSongView> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                CustomTextFormField(
-                  hintText: "Choose a song",
-                  validator: (value) => null,
-                  onSaved: (value) {},
-                  readonly: true,
-                  onTap: () async {
-                    final song = await pickSong();
-                    if (song != null) {
-                      setState(() {
-                        _song = song;
-                      });
-                    }
-                  },
-                ),
+                _song == null
+                    ? CustomTextFormField(
+                        hintText: "Choose a song",
+                        validator: (value) => null,
+                        onSaved: (value) {},
+                        readonly: true,
+                        onTap: () async {
+                          final song = await pickSong();
+                          if (song != null) {
+                            setState(() {
+                              _song = song;
+                            });
+                          }
+                        },
+                      )
+                    : WaveformWidget(path: _song!.path),
                 const SizedBox(height: 20),
                 CustomTextFormField(
                   hintText: "Artist Name",
