@@ -5,7 +5,7 @@ import 'package:spotify_clone/core/theme/app_palette.dart';
 import 'package:spotify_clone/core/theme/theme.dart';
 import 'package:spotify_clone/features/auth/view/sign_in_view.dart';
 import 'package:spotify_clone/features/auth/viewmodel/auth_viewmodel.dart';
-import 'package:spotify_clone/features/home/views/add_song_view.dart';
+import 'package:spotify_clone/features/home/views/home_view.dart';
 
 ProviderContainer providerContainer = ProviderContainer();
 
@@ -34,7 +34,7 @@ class SpofifyApp extends ConsumerWidget {
       theme: AppTheme.darkThemeMode.copyWith(
         scaffoldBackgroundColor: Pallete.backgroundColor,
       ),
-      home: user == null ? SignInView() : const AddSongView(),
+      home: user == null ? SignInView() : const HomeView(),
     );
   }
 }

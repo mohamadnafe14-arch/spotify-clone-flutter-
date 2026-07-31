@@ -10,7 +10,7 @@ import 'package:spotify_clone/core/theme/app_palette.dart';
 import 'package:spotify_clone/core/widgets/custom_text_form_field.dart';
 import 'package:spotify_clone/core/widgets/loader.dart';
 import 'package:spotify_clone/features/home/viewmodel/home_viewmodel.dart';
-import 'package:spotify_clone/features/home/views/waveform_widget.dart';
+import 'package:spotify_clone/features/home/views/widgets/waveform_widget.dart';
 
 class AddSongView extends ConsumerStatefulWidget {
   const AddSongView({super.key});
