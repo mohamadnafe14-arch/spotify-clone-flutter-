@@ -6,6 +6,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:spotify_clone/core/consts/server_constants.dart';
 import 'package:spotify_clone/core/errorss/failure.dart';
+import 'package:spotify_clone/core/functions/color_hex_conversion.dart';
 part 'home_repo.g.dart';
 
 @riverpod
@@ -33,7 +34,7 @@ class HomeRepo {
         ..fields.addAll({
           'songName': songName,
           'artist': artist,
-          'color': color.hex,
+          'color_hex': colorToHex(color),
         })
         ..headers.addAll({'x-auth-token': token});
       final response = await request.send();
