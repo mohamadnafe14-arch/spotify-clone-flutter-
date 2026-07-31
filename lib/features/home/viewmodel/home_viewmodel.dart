@@ -3,9 +3,18 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:spotify_clone/core/providers/user_model_notifier.dart';
+import 'package:spotify_clone/features/home/model/models/song_model.dart';
 import 'package:spotify_clone/features/home/model/repos/home_repo.dart';
 
 part 'home_viewmodel.g.dart';
+
+@riverpod
+Future<List<SongModel>> getSongs(Ref ref) async {
+  final homeRepo = ref.watch(homeRepoProvider);
+  final token = ref.watch(userModelProvider)!.token;
+  final result = await homeRepo.getSongs(token: token);
+  return result.fold((l) => throw Exception(l.message), (r) => r);
+}
 
 @riverpod
 class HomeViewmodel extends _$HomeViewmodel {

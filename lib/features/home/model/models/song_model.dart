@@ -19,7 +19,7 @@ class SongModel {
   });
   factory SongModel.fromJson(Map<String, dynamic> json) => SongModel(
     id: json["id"],
-    songName: json["songName"],
+    songName: json["song_name"],
     thumbnailUrl: json["thumbnail_url"],
     songUrl: json["song_url"],
     artist: json["artist"],

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -6,6 +7,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:spotify_clone/core/consts/server_constants.dart';
 import 'package:spotify_clone/core/errorss/failure.dart';
 import 'package:spotify_clone/core/functions/color_hex_conversion.dart';
+import 'package:spotify_clone/features/home/model/models/song_model.dart';
 part 'home_repo.g.dart';
 
 @riverpod
@@ -41,6 +43,24 @@ class HomeRepo {
       return Right("done");
     } on Exception catch (e) {
       return Left(Failure(e.toString()));
+    }
+  }
+  Future<Either<Failure,List<SongModel>>> getSongs({
+    required String token,
+  }) async {
+    try {
+      final response = await http.get(
+        Uri.parse('$baseUrl/song/'),
+        headers: {'x-auth-token': token},
+      );
+      final content = jsonDecode(response.body);
+      if (response.statusCode == 200) {
+        return right(List<SongModel>.from(content.map((x) => SongModel.fromJson(x))));
+      } else {
+        return left(Failure(content['detail']));
+      }
+    } catch (e) {
+      return left(Failure(e.toString()));
     }
   }
 }

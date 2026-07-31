@@ -9,6 +9,45 @@ part of 'home_viewmodel.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
+@ProviderFor(getSongs)
+final getSongsProvider = GetSongsProvider._();
+
+final class GetSongsProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<SongModel>>,
+          List<SongModel>,
+          FutureOr<List<SongModel>>
+        >
+    with $FutureModifier<List<SongModel>>, $FutureProvider<List<SongModel>> {
+  GetSongsProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'getSongsProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$getSongsHash();
+
+  @$internal
+  @override
+  $FutureProviderElement<List<SongModel>> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<List<SongModel>> create(Ref ref) {
+    return getSongs(ref);
+  }
+}
+
+String _$getSongsHash() => r'392c549c3d2590a7b9e37a911450f53b5db5d79c';
+
 @ProviderFor(HomeViewmodel)
 final homeViewmodelProvider = HomeViewmodelProvider._();
 
@@ -41,7 +80,7 @@ final class HomeViewmodelProvider
   }
 }
 
-String _$homeViewmodelHash() => r'2c83500eb486a8f42102f6b671f2bc4bab9ddff2';
+String _$homeViewmodelHash() => r'8cb1e124501bcfe24ece5f2c31fe92415cb2d455';
 
 abstract class _$HomeViewmodel extends $Notifier<AsyncValue<dynamic>?> {
   AsyncValue<dynamic>? build();
