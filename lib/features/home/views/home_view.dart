@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:spotify_clone/features/home/views/widgets/library_body.dart';
+import 'package:spotify_clone/features/home/views/widgets/song_body.dart';
 
 class HomeView extends ConsumerStatefulWidget {
   const HomeView({super.key});
@@ -13,6 +15,13 @@ class _HomeViewState extends ConsumerState<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      body:IndexedStack(
+        index: _currenIndex,
+        children: const [
+          SongBody(),
+          LibraryBody(),
+        ],
+      ),
       bottomNavigationBar: BottomNavigationBar(
         onTap: (value) {
           setState(() {
