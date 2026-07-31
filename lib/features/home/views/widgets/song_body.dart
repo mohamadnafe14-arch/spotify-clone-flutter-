@@ -29,43 +29,46 @@ class SongBody extends ConsumerWidget {
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                height: 200,
-                                width: 175,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: NetworkImage(
-                                      songs[index].thumbnailUrl,
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  height: 200,
+                                  width: 175,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: NetworkImage(
+                                        songs[index].thumbnailUrl,
+                                      ),
+                                      fit: BoxFit.fill,
                                     ),
-                                    fit: BoxFit.fill,
                                   ),
                                 ),
-                              ),
-                              const SizedBox(height: 10),
-                              Text(
-                                songs[index].songName,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 16,
-                                  overflow: TextOverflow.ellipsis,
+                                const SizedBox(height: 10),
+                                Text(
+                                  songs[index].songName,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 16,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  maxLines: 1,
                                 ),
-                                maxLines: 1,
-                              ),
-                              const SizedBox(height: 10),
-                              Text(
-                                songs[index].artist,
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 14,
-                                  overflow: TextOverflow.ellipsis,
-                                  fontWeight: FontWeight.w500,
+                                const SizedBox(height: 10),
+                                Text(
+                                  songs[index].artist,
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 14,
+                                    overflow: TextOverflow.ellipsis,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  maxLines: 1,
                                 ),
-                                maxLines: 1,
-                              ),
-                            ],
+                              ],
+                            ),
                           );
                         },
                         itemCount: songs.length,
