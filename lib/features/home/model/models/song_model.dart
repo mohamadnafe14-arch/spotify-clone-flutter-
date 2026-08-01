@@ -25,4 +25,21 @@ class SongModel {
     artist: json["artist"],
     color: hexToColor(json["color_hex"]),
   );
+  SongModel copyWith({
+    String? id,
+    String? songName,
+    String? thumbnailUrl,
+    String? songUrl,
+    String? artist,
+    Color? color,
+  }) {
+    return SongModel(
+      id: id ?? this.id,
+      songName: songName ?? this.songName,
+      thumbnailUrl: thumbnailUrl ?? this.thumbnailUrl,
+      songUrl: songUrl ?? this.songUrl,
+      artist: artist ?? this.artist,
+      color: color ?? this.color,
+    );
+  }
 }
