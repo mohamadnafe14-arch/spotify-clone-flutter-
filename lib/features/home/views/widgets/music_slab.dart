@@ -10,13 +10,29 @@ class MusicSlab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentSong = ref.watch(currentSongProvider);
-    final currentSongNotifier = ref.watch(currentSongProvider.notifier);
+    final currentSongNotifier = ref.read(currentSongProvider.notifier);
     if (currentSong == null) return const SizedBox.shrink();
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const MusicDetailsView()),
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                const MusicDetailsView(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              const begin = Offset(0.0, 1.0);
+              const end = Offset.zero;
+              const curve = Curves.ease;
+              final tween =
+                  Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+              final offsetAnimation = animation.drive(tween);
+              return SlideTransition(
+                position: offsetAnimation,
+                child: child,
+              );
+            },
+          )
         );
       },
       child: Stack(
@@ -34,14 +50,17 @@ class MusicSlab extends ConsumerWidget {
               children: [
                 Row(
                   children: [
-                    Container(
-                      height: 40,
-                      width: 40,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        image: DecorationImage(
-                          image: NetworkImage(currentSong.thumbnailUrl),
-                          fit: BoxFit.cover,
+                    Hero(
+                      tag: "song_image",
+                      child: Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          image: DecorationImage(
+                            image: NetworkImage(currentSong.thumbnailUrl),
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     ),

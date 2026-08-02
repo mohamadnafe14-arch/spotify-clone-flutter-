@@ -27,13 +27,20 @@ class CurrentSongNotifier extends _$CurrentSongNotifier {
     state = song;
   }
 
-  void playOrPauseSong()  {
+  void playOrPauseSong() {
     if (isPlaying) {
-       audioPlayer!.pause();
+      audioPlayer!.pause();
     } else {
-       audioPlayer!.play();
+      audioPlayer!.play();
     }
     isPlaying = !isPlaying;
     state = state?.copyWith(id: state?.id);
+  }
+
+  void seekToPosition(double value) {
+    final position = audioPlayer!.duration! * value;
+    audioPlayer!.seek(
+      position.inSeconds.toDouble() == 0.0 ? Duration.zero : position,
+    );
   }
 }
