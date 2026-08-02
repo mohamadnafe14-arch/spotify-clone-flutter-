@@ -9,8 +9,8 @@ class MusicSlab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentSong = ref.watch(currentSongProvider);
-    final currentSongNotifier = ref.read(currentSongProvider.notifier);
+    final currentSong = ref.watch(currentSongNotifierProvider);
+    final currentSongNotifier = ref.read(currentSongNotifierProvider.notifier);
     if (currentSong == null) return const SizedBox.shrink();
     return GestureDetector(
       onTap: () {

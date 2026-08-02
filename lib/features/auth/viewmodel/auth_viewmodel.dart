@@ -14,7 +14,7 @@ class AuthViewmodel extends _$AuthViewmodel {
   AsyncValue<UserModel>? build() {
     _authRemoteRepo = ref.watch(authRepoProvider);
     _authLocalRepo = ref.watch(authLocalRepoProvider);
-    _userModelProvider = ref.watch(userModelProvider.notifier);
+    _userModelProvider = ref.watch(userModelNotifierProvider.notifier);
     return null;
   }
 

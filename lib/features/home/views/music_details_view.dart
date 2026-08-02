@@ -9,8 +9,8 @@ class MusicDetailsView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final song = ref.watch(currentSongProvider);
-    final currentSongNotifier = ref.read(currentSongProvider.notifier);
+    final song = ref.watch(currentSongNotifierProvider);
+    final currentSongNotifier = ref.read(currentSongNotifierProvider.notifier);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       decoration: BoxDecoration(
@@ -84,7 +84,7 @@ class MusicDetailsView extends ConsumerWidget {
                     ),
                     StreamBuilder<Duration>(
                       stream: ref
-                          .read(currentSongProvider.notifier)
+                          .read(currentSongNotifierProvider.notifier)
                           .audioPlayer
                           ?.positionStream,
                       builder: (context, snapshot) {

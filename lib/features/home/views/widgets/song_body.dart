@@ -35,7 +35,7 @@ class SongBody extends ConsumerWidget {
                             child: GestureDetector(
                               onTap: () {
                                 ref
-                                    .read(currentSongProvider.notifier)
+                                    .read(currentSongNotifierProvider.notifier)
                                     .setCurrentSong(songs[index]);
                               },
                               child: Column(

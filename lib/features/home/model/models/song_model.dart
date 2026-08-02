@@ -42,4 +42,12 @@ class SongModel {
       color: color ?? this.color,
     );
   }
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "song_name": songName,
+    "thumbnail_url": thumbnailUrl,
+    "song_url": songUrl,
+    "artist": artist,
+    "color_hex": colorToHex(color),
+  };
 }

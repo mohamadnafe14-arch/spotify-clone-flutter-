@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:spotify_clone/core/providers/user_model_notifier.dart';
 import 'package:spotify_clone/core/theme/app_palette.dart';
 import 'package:spotify_clone/core/theme/theme.dart';
@@ -11,6 +12,8 @@ ProviderContainer providerContainer = ProviderContainer();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  await Hive.openBox('Songs');
   await providerContainer
       .read(authViewmodelProvider.notifier)
       .initSharedPrefs();
@@ -28,7 +31,7 @@ class SpofifyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(userModelProvider);
+    final user = ref.watch(userModelNotifierProvider);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: AppTheme.darkThemeMode.copyWith(

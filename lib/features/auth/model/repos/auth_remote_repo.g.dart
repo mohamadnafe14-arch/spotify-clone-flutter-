@@ -6,46 +6,19 @@ part of 'auth_remote_repo.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-// GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: type=lint, type=warning
-
-@ProviderFor(authRepo)
-final authRepoProvider = AuthRepoProvider._();
-
-final class AuthRepoProvider
-    extends $FunctionalProvider<AuthRemoteRepo, AuthRemoteRepo, AuthRemoteRepo>
-    with $Provider<AuthRemoteRepo> {
-  AuthRepoProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'authRepoProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
-
-  @override
-  String debugGetCreateSourceHash() => _$authRepoHash();
-
-  @$internal
-  @override
-  $ProviderElement<AuthRemoteRepo> $createElement($ProviderPointer pointer) =>
-      $ProviderElement(pointer);
-
-  @override
-  AuthRemoteRepo create(Ref ref) {
-    return authRepo(ref);
-  }
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(AuthRemoteRepo value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<AuthRemoteRepo>(value),
-    );
-  }
-}
-
 String _$authRepoHash() => r'dfb11ad9b7077712b9035563019f218cedc93499';
+
+/// See also [authRepo].
+@ProviderFor(authRepo)
+final authRepoProvider = AutoDisposeProvider<AuthRemoteRepo>.internal(
+  authRepo,
+  name: r'authRepoProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$authRepoHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+// ignore: deprecated_member_use
+typedef AuthRepoRef = AutoDisposeProviderRef<AuthRemoteRepo>;
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
