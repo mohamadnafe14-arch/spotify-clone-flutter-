@@ -6,6 +6,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:spotify_clone/core/providers/user_model_notifier.dart';
 import 'package:spotify_clone/features/home/model/models/song_model.dart';
 import 'package:spotify_clone/features/home/model/repos/home_repo.dart';
+import 'package:spotify_clone/features/home/model/repos/local_home_repo.dart';
 
 part 'home_viewmodel.g.dart';
 
@@ -20,9 +21,11 @@ Future<List<SongModel>> getSongs(Ref ref) async {
 @riverpod
 class HomeViewmodel extends _$HomeViewmodel {
   late HomeRepo _homeRepo;
+  late LocalHomeRepo _localHomeRepo;
   @override
   AsyncValue? build() {
     _homeRepo = ref.watch(homeRepoProvider);
+    _localHomeRepo = ref.watch(localHomeRepoProvider);
     return null;
   }
 
@@ -47,5 +50,9 @@ class HomeViewmodel extends _$HomeViewmodel {
       (l) => state = AsyncError(l.message, StackTrace.current),
       (r) => state = AsyncData(r),
     );
+  }
+
+  List<SongModel> getLocalSongs() {
+    return _localHomeRepo.getSongs();
   }
 }

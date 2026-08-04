@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -20,9 +22,12 @@ class LocalHomeRepo {
     List<SongModel> songs = [];
     for (var key in songsBox.keys) {
       final songJson = songsBox.get(key);
-      final song = SongModel.fromJson(songJson);
-      songs.add(song);
+      if (songJson != null) {
+        final song = SongModel.fromJson(Map<String, dynamic>.from(songJson));
+        songs.add(song);
+      }
     }
+    log('Local songs: ${songs.length}');
     return songs;
   }
 }
