@@ -99,6 +99,7 @@ class SongBody extends ConsumerWidget {
               },
             ),
           ),
+          const SizedBox(height: 20),
           Text(
             "Trending Songs",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),

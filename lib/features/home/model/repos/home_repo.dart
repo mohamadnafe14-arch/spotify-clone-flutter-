@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -46,7 +47,8 @@ class HomeRepo {
       return Left(Failure(e.toString()));
     }
   }
-  Future<Either<Failure,List<SongModel>>> getSongs({
+
+  Future<Either<Failure, List<SongModel>>> getSongs({
     required String token,
   }) async {
     try {
@@ -56,7 +58,56 @@ class HomeRepo {
       );
       final content = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        return right(List<SongModel>.from(content.map((x) => SongModel.fromJson(x))));
+        return right(
+          List<SongModel>.from(content.map((x) => SongModel.fromJson(x))),
+        );
+      } else {
+        return left(Failure(content['detail']));
+      }
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  Future<Either<Failure, String>> toggleFavorite({
+    required String token,
+    required String songId,
+  }) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/song/favourite'),
+        headers: {'x-auth-token': token, 'Content-Type': 'application/json'},
+        body: jsonEncode({'id': songId}),
+      );
+      log(response.body);
+      log(response.statusCode.toString());
+      final content = jsonDecode(response.body);
+      if (response.statusCode == 200) {
+        return right(content['message']);
+      } else {
+        return left(Failure(content['detail']));
+      }
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  Future<Either<Failure, List<SongModel>>> getFavoriteSongs({
+    required String token,
+  }) async {
+    try {
+      final response = await http.get(
+        Uri.parse('$baseUrl/song/favourites/'),
+        headers: {'x-auth-token': token},
+      );
+      final content = jsonDecode(response.body);
+      log(content.toString());
+      if (response.statusCode == 200) {
+        return right(
+          List<SongModel>.from(
+            content.map((x) => SongModel.fromJson(x['song'])),
+          ),
+        );
       } else {
         return left(Failure(content['detail']));
       }

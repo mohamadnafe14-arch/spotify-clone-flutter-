@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:spotify_clone/core/providers/current_song_notifier.dart';
+import 'package:spotify_clone/core/providers/user_model_notifier.dart';
 import 'package:spotify_clone/core/theme/app_palette.dart';
+import 'package:spotify_clone/features/home/viewmodel/home_viewmodel.dart';
 
 class MusicDetailsView extends ConsumerWidget {
   const MusicDetailsView({super.key});
@@ -11,6 +13,10 @@ class MusicDetailsView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final song = ref.watch(currentSongNotifierProvider);
     final currentSongNotifier = ref.read(currentSongNotifierProvider.notifier);
+    final user = ref.watch(userModelNotifierProvider);
+final isFavorite = user!.favourites.any(
+  (song) => song.id == song.id,
+);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       decoration: BoxDecoration(
@@ -77,8 +83,20 @@ class MusicDetailsView extends ConsumerWidget {
                           ],
                         ),
                         IconButton(
-                          icon: Icon(CupertinoIcons.heart, color: Colors.white),
-                          onPressed: () {},
+                          icon: isFavorite
+                              ? const Icon(
+                                  CupertinoIcons.heart_fill,
+                                  color: Colors.white,
+                                )
+                              : const Icon(
+                                  CupertinoIcons.heart,
+                                  color: Colors.white,
+                                ),
+                          onPressed: () {
+                            ref
+                                .read(homeViewmodelProvider.notifier)
+                                .toggleFavorite(song.id);
+                          },
                         ),
                       ],
                     ),

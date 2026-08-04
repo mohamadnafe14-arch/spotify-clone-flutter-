@@ -108,7 +108,7 @@ class _AddSongViewState extends ConsumerState<AddSongView> {
                                     _image!,
                                     height: 200,
                                     width: double.infinity,
-                                    fit: BoxFit.fill,
+                                    fit: BoxFit.cover,
                                   ),
                                 )
                               : SizedBox(

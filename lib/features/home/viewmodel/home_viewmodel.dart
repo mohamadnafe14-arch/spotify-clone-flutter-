@@ -13,8 +13,18 @@ part 'home_viewmodel.g.dart';
 @riverpod
 Future<List<SongModel>> getSongs(Ref ref) async {
   final homeRepo = ref.watch(homeRepoProvider);
-  final token = ref.watch(userModelNotifierProvider)!.token;
+  final token = ref.watch(
+    userModelNotifierProvider.select((user) => user!.token),
+  );
   final result = await homeRepo.getSongs(token: token);
+  return result.fold((l) => throw Exception(l.message), (r) => r);
+}
+
+@riverpod
+Future<List<SongModel>> getFavoriteSongs(Ref ref) async {
+  final homeRepo = ref.watch(homeRepoProvider);
+  final token = ref.watch(userModelNotifierProvider)!.token;
+  final result = await homeRepo.getFavoriteSongs(token: token);
   return result.fold((l) => throw Exception(l.message), (r) => r);
 }
 
@@ -54,5 +64,37 @@ class HomeViewmodel extends _$HomeViewmodel {
 
   List<SongModel> getLocalSongs() {
     return _localHomeRepo.getSongs();
+  }
+
+  Future<void> toggleFavorite(String songId) async {
+    final result = await _homeRepo.toggleFavorite(
+      token: ref.read(userModelNotifierProvider)!.token,
+      songId: songId,
+    );
+
+    result.fold(
+      (l) {
+      },
+      (message) {
+        final user = ref.read(userModelNotifierProvider)!;
+        if (message == "Removed") {
+          final updatedUser = user.copyWith(
+            favourites: user.favourites
+                .where((song) => song.id != songId)
+                .toList(),
+          );
+          ref.read(userModelNotifierProvider.notifier).setUser(updatedUser);
+        } else {
+          final song = _localHomeRepo.getSongs().firstWhere(
+            (song) => song.id == songId,
+          );
+          final updatedUser = user.copyWith(
+            favourites: [...user.favourites, song],
+          );
+          ref.read(userModelNotifierProvider.notifier).setUser(updatedUser);
+        }
+        ref.invalidate(getFavoriteSongsProvider);
+      },
+    );
   }
 }

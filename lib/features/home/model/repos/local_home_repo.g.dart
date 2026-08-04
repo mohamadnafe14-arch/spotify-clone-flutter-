@@ -19,6 +19,7 @@ final localHomeRepoProvider = AutoDisposeProvider<LocalHomeRepo>.internal(
   dependencies: null,
   allTransitiveDependencies: null,
 );
+
 // ignore: deprecated_member_use
 typedef LocalHomeRepoRef = AutoDisposeProviderRef<LocalHomeRepo>;
 // ignore_for_file: type=lint

@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:spotify_clone/core/providers/current_song_notifier.dart';
+import 'package:spotify_clone/core/providers/user_model_notifier.dart';
+import 'package:spotify_clone/features/home/viewmodel/home_viewmodel.dart';
 import 'package:spotify_clone/features/home/views/music_details_view.dart';
 
 class MusicSlab extends ConsumerWidget {
@@ -11,6 +13,10 @@ class MusicSlab extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentSong = ref.watch(currentSongNotifierProvider);
     final currentSongNotifier = ref.read(currentSongNotifierProvider.notifier);
+    final user = ref.watch(userModelNotifierProvider);
+    final isFavorite = user!.favourites.any(
+      (song) => song.id == currentSong?.id,
+    );
     if (currentSong == null) return const SizedBox.shrink();
     return GestureDetector(
       onTap: () {
@@ -21,18 +27,20 @@ class MusicSlab extends ConsumerWidget {
                 const MusicDetailsView(),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
-              const begin = Offset(0.0, 1.0);
-              const end = Offset.zero;
-              const curve = Curves.ease;
-              final tween =
-                  Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-              final offsetAnimation = animation.drive(tween);
-              return SlideTransition(
-                position: offsetAnimation,
-                child: child,
-              );
-            },
-          )
+                  const begin = Offset(0.0, 1.0);
+                  const end = Offset.zero;
+                  const curve = Curves.ease;
+                  final tween = Tween(
+                    begin: begin,
+                    end: end,
+                  ).chain(CurveTween(curve: curve));
+                  final offsetAnimation = animation.drive(tween);
+                  return SlideTransition(
+                    position: offsetAnimation,
+                    child: child,
+                  );
+                },
+          ),
         );
       },
       child: Stack(
@@ -94,8 +102,20 @@ class MusicSlab extends ConsumerWidget {
                 Row(
                   children: [
                     IconButton(
-                      icon: Icon(CupertinoIcons.heart, color: Colors.white),
-                      onPressed: () {},
+                      icon: isFavorite
+                          ? const Icon(
+                              CupertinoIcons.heart_fill,
+                              color: Colors.white,
+                            )
+                          : const Icon(
+                              CupertinoIcons.heart,
+                              color: Colors.white,
+                            ),
+                      onPressed: () async {
+                        await ref
+                            .read(homeViewmodelProvider.notifier)
+                            .toggleFavorite(currentSong.id);
+                      },
                     ),
                     IconButton(
                       onPressed: () {
